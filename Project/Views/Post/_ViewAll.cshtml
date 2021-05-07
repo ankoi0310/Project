@@ -1,0 +1,118 @@
+﻿@model IEnumerable<Project.Models.Post>
+
+@{
+    ViewBag.ID = 0;
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">DataTable with default features</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        No.
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Image)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ID_Student)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date_Upload)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ID_Competition)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ID_Exhibition)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Rate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Comment)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Price)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Sale_Status)
+                    </th>
+                    <th>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Post", null, Context.Request.Scheme)', 'New Post')" class="btn btn-success text-white"><i class="fas fa-plus"></i>&ensp;New Post</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td class="text-center">
+                        @{
+                            ViewBag.ID++;
+                        }
+                        @ViewBag.ID
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Image)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ID_Student)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Date_Upload)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ID_Competition)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.ID_Exhibition)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Rate)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Comment)
+                    </td>
+                    <td class="text-center">
+                        @if (item.Sale_Status == true)
+                        {
+                            ViewBag.Sale_Status = "Sold";
+                        }
+                        else if (item.Sale_Status == false)
+                        {
+                            ViewBag.Sale_Status = "Selling";
+                        }
+                        else
+                        {
+                            ViewBag.Sale_Status = "Not for sell";
+                        }
+                        @ViewBag.Sale_Status
+                    </td>
+                    <td>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Competition", new { item.ID }, Context.Request.Scheme)', 'Update Competition')" class="btn btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>
+                        <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>

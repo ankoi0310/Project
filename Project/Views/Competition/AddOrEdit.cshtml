@@ -1,0 +1,83 @@
+﻿@model Project.Models.Competition
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" asp-route-id="@Model.ID" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Topic" class="control-label"></label>
+                <input asp-for="Topic" class="form-control" />
+                <span asp-validation-for="Topic" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <div id="toolbar-container"></div>
+                <div id="editor" class="border"></div>
+                <input type="hidden" id="content" asp-for="Content" class="form-control" />
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date_Start" class="control-label"></label>
+                @if (Model.Date_Start.Equals(DateTime.MinValue))
+                {
+                    ViewBag.Date_Start = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    ViewBag.Date_Start = Model.Date_Start.ToString("yyyy-MM-dd");
+                }
+                <input type="date" asp-for="Date_Start" value="@ViewBag.Date_Start" class="form-control" />
+                <span asp-validation-for="Date_Start" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date_End" class="control-label"></label>
+                @if (Model.Date_End.Equals(DateTime.MinValue))
+                {
+                    ViewBag.Date_End = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    ViewBag.Date_End = Model.Date_End.ToString("yyyy-MM-dd");
+                }
+                <input type="date" asp-for="Date_End" value="@ViewBag.Date_End" class="form-control" />
+                <span asp-validation-for="Date_End" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    //$("#editor").on("change", () => {
+    //    $('#classroom').val($('#select-classroom').val());
+    //})
+    for (var i = 0; i < allEditors.length; ++i) {
+        DecoupledEditor
+            .create(document.querySelectorAll('#editor'))
+            .then(editor => {
+                const toolbarContainer = document.querySelector('#toolbar-container');
+                toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

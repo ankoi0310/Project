@@ -1,0 +1,40 @@
+﻿@model Project.Models.Classroom
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" asp-route-id="@Model.ID" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Admission_Date" class="control-label"></label>
+                @if (Model.Admission_Date.Equals(DateTime.MinValue))
+                {
+                    ViewBag.Admission_Date = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    ViewBag.Admission_Date = Model.Admission_Date.ToString("yyyy-MM-dd");
+                }
+                <input type="date" asp-for="Admission_Date" value="@ViewBag.Admission_Date" min="@DateTime.Now.AddYears(-42)" max="@DateTime.Now.AddYears(-18)" class="form-control" />
+                <span asp-validation-for="Admission_Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

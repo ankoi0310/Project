@@ -1,0 +1,96 @@
+﻿@model Project.Models.Post
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" asp-route-id="@Model.ID" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Student" class="control-label"></label>
+                <input asp-for="ID_Student" class="form-control" />
+                <span asp-validation-for="ID_Student" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date_Upload" class="control-label"></label>
+                @if (Model.Date_Upload.Equals(DateTime.MinValue))
+                {
+                    ViewBag.Date_Upload = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+                else
+                {
+                    ViewBag.Date_Upload = Model.Date_Upload.ToString("yyyy-MM-dd");
+                }
+                <input type="date" asp-for="Date_Upload" value="@ViewBag.Date_Upload" class="form-control" />
+                <span asp-validation-for="Date_Upload" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Competition" class="control-label"></label>
+                <input asp-for="ID_Competition" class="form-control" />
+                <span asp-validation-for="ID_Competition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ID_Exhibition" class="control-label"></label>
+                <input asp-for="ID_Exhibition" class="form-control" />
+                <span asp-validation-for="ID_Exhibition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rate" class="control-label"></label>
+                <input asp-for="Rate" class="form-control" />
+                <span asp-validation-for="Rate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    //$("#editor").on("change", () => {
+    //    $('#classroom').val($('#select-classroom').val());
+    //})
+    var allEditors = document.querySelectorAll('.editor');
+    var allToolbars = [".topic", ".description", ".content"];
+    for (var i = 0; i < allEditors.length; ++i) {
+        DecoupledEditor
+            .create(allEditors[i])
+            .then(editor => {
+                const toolbar = document.querySelector(allToolbars[i]);
+                toolbar.appendChild(editor.ui.view.toolbar.element);
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+</script>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

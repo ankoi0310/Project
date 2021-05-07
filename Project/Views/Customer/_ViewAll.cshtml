@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Project.Models.Customer>
+
+@{
+    ViewBag.ID = 0;
+}
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">DataTable with default features</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        No.
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date_Of_Birth)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Gender)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Phone)
+                    </th>
+                    <th>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Customer", null, Context.Request.Scheme)', 'New Customer')" class="btn btn-success text-white"><i class="fas fa-plus"></i>&ensp;New Customer</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td class="text-center">
+                        @{
+                            ViewBag.ID++;
+                        }
+                        @ViewBag.ID
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Date_Of_Birth)
+                    </td>
+                    <td>
+                        @{
+                            ViewBag.Gender = item.Gender ? "Male" : "Female";
+                        }
+                        @ViewBag.Gender
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Customer", new { item.ID }, Context.Request.Scheme)', 'Update Customer')" class="btn btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>
+                        <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                            <input type="submit" value="Delete" class="btn btn-danger" />
+                        </form>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
