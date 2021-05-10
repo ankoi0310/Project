@@ -18,7 +18,7 @@ namespace Project.Controllers
         }
 
         // GET: Customer
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> List()
         {
             return View(await _context.Customers.ToListAsync());
         }

@@ -1,0 +1,92 @@
+﻿@model Project.Models.Competition
+
+@{ 
+    ViewData["Title"] = "Detail";
+}
+
+<div class="all-title-box">
+    <div class="container text-center">
+        <h1>Competition</h1>
+    </div>
+</div>
+
+<div id="overviews" class="section wb">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-9 blog-post-single">
+                <div class="blog-item">
+                    <div class="image-blog">
+                        <img src="/images/@Model.Image" alt="" class="img-fluid">
+                    </div>
+                    <div class="post-content">
+                        <div class="post-date">
+                            <a onclick="showInPopup('@Url.Action("AddOrEdit", "Post", null, Context.Request.Scheme)', 'New Post')" class="btn btn-warning font-weight-bolder" style="cursor: pointer;">Register</a>
+                        </div>
+                        <div class="meta-info-blog">
+                            <span>
+                                <i class="fa fa-calendar"></i>
+                                <span>
+                                    @Model.Date_Start.ToString("dd/MM/yyyy") - @Model.Date_End.ToString("dd/MM/yyyy")
+                                </span>
+                            </span>
+                            <span>
+                                <i class="fa fa-stack-overflow"></i>
+                                @if (Model.Status == true)
+                                {
+                                    ViewBag.Style = "text-success";
+                                    ViewBag.Status = "Happenning";
+                                }
+                                else if (Model.Status == false)
+                                {
+                                    ViewBag.Style = "text-danger";
+                                    ViewBag.Status = "Finished";
+                                }
+                                else
+                                {
+                                    ViewBag.Style = "text-warning";
+                                    ViewBag.Status = "Not yet";
+                                }
+                                <span class="@ViewBag.Style">
+                                    @ViewBag.Status
+                                </span>
+                            </span>
+                        </div>
+                        <div class="blog-title">
+                            <h2><a href="#" title="">@Model.Topic</a></h2>
+                        </div>
+                        <div class="blog-desc">@Model.Content.Trim()</div>
+                    </div>
+                </div>
+            </div><!-- end col -->
+
+            <div class="col-lg-3 col-12 right-single">
+                <div class="widget-search">
+                    <div class="site-search-area">
+                        <form method="get" id="site-searchform" action="#">
+                            <div>
+                                <input class="input-text form-control" name="search-k" id="search-k" placeholder="Search keywords..." type="text">
+                                <input id="searchsubmit" value="Search" type="submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="widget-categories">
+                    <h3 class="widget-title">Competitions</h3>
+                    <ul>
+                        @foreach (var item in Model.getAll())
+                        {
+                        <li><a href="./@item.ID">@item.Topic</a></li>}
+                                </ul>
+                            </div>
+                            <div class="widget-tags">
+                                <h3 class="widget-title">Participants</h3>
+                                <ul>
+                                    @foreach (var item in Model.getAllPost(Model.ID))
+                                    {
+                        <li><a href="#">@item.getNameStudent(item.ID_Student)</a></li>}
+                    </ul>
+                </div>
+            </div>
+        </div><!-- end row -->
+    </div><!-- end container -->
+</div><!-- end section -->

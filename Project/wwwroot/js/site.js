@@ -22,6 +22,8 @@ showInPopup = (url, title) => {
 }
 
 jQueryAjaxPost = (form) => {
+    $('#editor').html() == "<p><br data-cke-filler=\"true\"></p>" ? $('#Content').val(null) : $('#Content').val($('#editor').html());
+    console.log($("#content").val());
     removeSorting();
     try {
         $.ajax({

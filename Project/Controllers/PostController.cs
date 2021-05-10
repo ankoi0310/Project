@@ -19,7 +19,7 @@ namespace Project.Controllers
         }
 
         // GET: Post
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> List()
         {
             return View(await _context.Posts.ToListAsync());
         }

@@ -19,7 +19,7 @@ namespace Project.Controllers
         }
 
         // GET: Staff
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> List()
         {
             return View(await _context.Staffs.ToListAsync());
         }

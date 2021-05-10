@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,14 +14,31 @@ namespace Project.Controllers
     public class CompetitionController : Controller
     {
         private readonly Context _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CompetitionController()
+        public CompetitionController(IWebHostEnvironment webHostEnvironment)
         {
             _context = _context == null ? new Context() : _context;
+            _webHostEnvironment = webHostEnvironment;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.Competitions.ToListAsync());
+        }
+
+        public async Task<IActionResult> Detail(int id)
+        {
+            var competition = await _context.Competitions.FindAsync(id);
+            if (competition == null)
+            {
+                return NotFound();
+            }
+            return View(competition);
         }
 
         // GET: Competition
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> List()
         {
             return View(await _context.Competitions.ToListAsync());
         }
@@ -31,7 +50,7 @@ namespace Project.Controllers
         {
             if (id == 0)
             {
-                return base.View(new Models.Competition());
+                return View(new Competition());
             }
             else
             {
@@ -49,14 +68,25 @@ namespace Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, [Bind("ID,Topic,Short_Content,Content,Date_Start,Date_End,Status")] Models.Competition competition)
+        public async Task<IActionResult> AddOrEdit(int id, [Bind("ID,Topic,Description,Content,Date_Start,Date_End,ImageFile,Status")] Competition competition)
         {
             if (ModelState.IsValid)
             {
                 if (id == 0)
                 {
-                    _context.Add(competition);
-                    await _context.SaveChangesAsync();
+                    
+                        string wwwRootPath = _webHostEnvironment.WebRootPath;
+                        string fileName = Path.GetFileNameWithoutExtension(competition.ImageFile.FileName);
+                        string extension = Path.GetExtension(competition.ImageFile.FileName);
+                        competition.Image = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                        string path = Path.Combine(wwwRootPath + "/images", fileName);
+                        using (var fs = new FileStream(path, FileMode.Create))
+                        {
+                            await competition.ImageFile.CopyToAsync(fs);
+                        }
+
+                        _context.Add(competition);
+                        await _context.SaveChangesAsync();
                 }
                 else
                 {

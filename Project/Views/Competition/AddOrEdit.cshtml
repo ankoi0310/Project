@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <form asp-action="AddOrEdit" asp-route-id="@Model.ID" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
+        <form asp-action="AddOrEdit" enctype="multipart/form-data" asp-route-id="@Model.ID" onsubmit="return jQueryAjaxPost(this)" autocomplete="off">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
@@ -24,7 +24,7 @@
                 <label asp-for="Content" class="control-label"></label>
                 <div id="toolbar-container"></div>
                 <div id="editor" class="border"></div>
-                <input type="hidden" id="content" asp-for="Content" class="form-control" />
+                <input type="hidden" id="Content" asp-for="Content" class="form-control" />
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -54,6 +54,11 @@
                 <span asp-validation-for="Date_End" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile"/>
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Submit" class="btn btn-primary btn-block" />
             </div>
         </form>
@@ -61,21 +66,18 @@
 </div>
 
 <script>
-    //$("#editor").on("change", () => {
-    //    $('#classroom').val($('#select-classroom').val());
-    //})
-    for (var i = 0; i < allEditors.length; ++i) {
-        DecoupledEditor
-            .create(document.querySelectorAll('#editor'))
-            .then(editor => {
-                const toolbarContainer = document.querySelector('#toolbar-container');
-                toolbarContainer.appendChild(editor.ui.view.toolbar.element);
-            })
-            .catch(error => {
-                console.error(error);
-            });
+    DecoupledEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            const toolbarContainer = document.querySelector('#toolbar-container');
+            toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    if ($("#Content").val() != null) {
+        $("#editor").html($("#Content").val());
     }
-
 </script>
 
 @section Scripts {

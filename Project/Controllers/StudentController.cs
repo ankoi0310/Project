@@ -18,8 +18,13 @@ namespace Project.Controllers
             _context = _context == null ? new Context() : _context;
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         // GET: Student
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> List()
         {
             return View(await _context.Students.ToListAsync());
         }

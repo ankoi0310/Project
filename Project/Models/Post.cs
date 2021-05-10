@@ -19,6 +19,7 @@ namespace Project.Models
         [DisplayName("Author")]
         [Required(ErrorMessage = "This field is required.")]
         public int ID_Student { get; set; }
+        public string getNameStudent(int id) => new Context().Students.Where(q => q.ID == id).FirstOrDefault().Name;
 
         [DisplayName("Date upload")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
@@ -30,9 +31,12 @@ namespace Project.Models
         [DisplayName("Competition")]
         [Required(ErrorMessage = "This field is required.")]
         public int ID_Competition { get; set; }
+        public IEnumerable<Competition> GetCompetitionList() => new Context().Competitions.ToList();
+        public string getNameCompetition(int id) => new Context().Competitions.Where(q => q.ID == id).FirstOrDefault().Topic;
 
         [DisplayName("Exhibition")]
         public int? ID_Exhibition { get; set; }
+        public string getNameExhibition(int id) => new Context().Exhibitions.Where(q => q.ID == id).FirstOrDefault().ID.ToString();
 
         public int? Price { get; set; }
 

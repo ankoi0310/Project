@@ -34,13 +34,29 @@
                 <span asp-validation-for="Date_Upload" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
+                <label asp-for="Description" class="control-label">
+                </label><div id="toolbar-container"></div>
+                <div id="editor" class="border"></div>
+                <input type="hidden" id="Description" asp-for="Description" class="form-control" />
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ID_Competition" class="control-label"></label>
-                <input asp-for="ID_Competition" class="form-control" />
+                <select class="form-select form-control" id="select-competition" aria-label="Competition selection">
+                    <option value="0">Select competition</option>
+                    @foreach (Competition item in Model.GetCompetitionList())
+                    {
+                        <option value="@item.ID">@item.Topic</option>
+                    }
+                </select>
+                @if (Model.ID != 0)
+                {
+                    <input type="hidden" id="competition" asp-for="ID_Competition" class="form-control" value="@Model.ID_Competition" />
+                }
+                else
+                {
+                    <input type="hidden" id="competition" asp-for="ID_Competition" class="form-control" value="0" />
+                }
                 <span asp-validation-for="ID_Competition" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -48,17 +64,17 @@
                 <input asp-for="ID_Exhibition" class="form-control" />
                 <span asp-validation-for="ID_Exhibition" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 <label asp-for="Rate" class="control-label"></label>
                 <input asp-for="Rate" class="form-control" />
                 <span asp-validation-for="Rate" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 <label asp-for="Comment" class="control-label"></label>
                 <input asp-for="Comment" class="form-control" />
                 <span asp-validation-for="Comment" class="text-danger"></span>
@@ -71,24 +87,22 @@
 </div>
 
 <script>
-    //$("#editor").on("change", () => {
-    //    $('#classroom').val($('#select-classroom').val());
-    //})
-    var allEditors = document.querySelectorAll('.editor');
-    var allToolbars = [".topic", ".description", ".content"];
-    for (var i = 0; i < allEditors.length; ++i) {
-        DecoupledEditor
-            .create(allEditors[i])
-            .then(editor => {
-                const toolbar = document.querySelector(allToolbars[i]);
-                toolbar.appendChild(editor.ui.view.toolbar.element);
-                window.editor = editor;
-            })
-            .catch(error => {
-                console.error(error);
-            });
+    $('#select-competition').on('change', function () {
+        $('#competition').val($('#select-competition').val());
+    });
+    $('#select-competition').val($('#competition').val());
+    DecoupledEditor
+        .create(document.querySelector('#editor'))
+        .then(editor => {
+            const toolbarContainer = document.querySelector('#toolbar-container');
+            toolbarContainer.appendChild(editor.ui.view.toolbar.element);
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    if ($("#Description").val() != null) {
+        $("#editor").html($("#Description").val());
     }
-
 </script>
 
 @section Scripts {

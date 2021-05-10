@@ -1,12 +1,80 @@
 ﻿@model IEnumerable<Project.Models.Competition>
 
-@{
-    ViewData["Title"] = "Competition";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
-
-<h1 class="text-center"><i class="fas fa-user"></i>&ensp;Competition</h1>
-
-<div id="view-all">
-    @await Html.PartialAsync("_ViewAll", Model)
+<div class="all-title-box">
+    <div class="container text-center">
+        <h1>Competition</h1>
+    </div>
 </div>
+
+<div id="overviews" class="section wb">
+    <div class="container">
+        @{ 
+            int i = 0;
+            var q = Model.OrderByDescending(o => o.Status);
+            var count = Model.Count() % 3 != 0 ? Model.Count() / 3 + 1 : Model.Count() / 3;
+            while (i < count)
+            {
+                <div class="row">
+                    @for (int j = i * 3; j < (i + 1) * 3; j++)
+                        {
+                            if (j == Model.Count())
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                var item = q.ElementAt(j);
+                            <div class="col-lg-4 col-md-6 col-12">
+                                <div class="blog-item">
+                                    <div class="image-blog">
+                                        <img src="~/images/@item.Image" alt="" class="img-fluid">
+                                    </div>
+                                    <div class="meta-info-blog">
+                                        <span>
+                                            <i class="fa fa-calendar"></i>
+                                            <span>
+                                                @item.Date_Start.ToString("dd/MM/yyyy") - @item.Date_End.ToString("dd/MM/yyyy")
+                                            </span> 
+                                        </span>
+                                        <span>
+                                            <i class="fa fa-stack-overflow"></i>
+                                            @if (item.Status == true)
+                                            {
+                                                ViewBag.Style = "text-success";
+                                                ViewBag.Status = "Happenning";
+                                            }
+                                            else if (item.Status == false)
+                                            {
+                                                ViewBag.Style = "text-danger";
+                                                ViewBag.Status = "Finished";
+                                            }
+                                            else
+                                            {
+                                                ViewBag.Style = "text-warning";
+                                                ViewBag.Status = "Not yet";
+                                            }
+                                            <span class="@ViewBag.Style">
+                                                @ViewBag.Status
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <div class="blog-title">
+                                        <h2><a href="#" title="">@item.Topic</a></h2>
+                                    </div>
+                                    <div class="blog-desc">
+                                        <p>@item.Description</p>
+                                    </div>
+                                    <div class="blog-button">
+                                        <a class="hover-btn-new orange" href="@Url.Action("Detail", "Competition", new { item.ID }, Context.Request.Scheme)"><span>Read More<span /></a>
+                                    </div>
+                                </div>
+                            </div><!-- end col -->
+                        }
+                    }
+                </div><!-- end row -->
+                <hr class="hr3">
+                i++;
+            } 
+        }
+    </div><!-- end container -->
+</div><!-- end section -->

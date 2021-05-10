@@ -65,7 +65,7 @@
                         @Html.DisplayFor(modelItem => item.Image)
                     </td>
                     <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.ID_Student)
+                        @item.getNameStudent(item.ID_Student)
                     </td>
                     <td class="text-center">
                         @Html.DisplayFor(modelItem => item.Date_Upload)
@@ -74,7 +74,7 @@
                         @Html.DisplayFor(modelItem => item.Description)
                     </td>
                     <td class="text-center">
-                        @Html.DisplayFor(modelItem => item.ID_Competition)
+                        @item.getNameCompetition(item.ID_Competition)
                     </td>
                     <td class="text-center">
                         @Html.DisplayFor(modelItem => item.ID_Exhibition)
@@ -104,7 +104,7 @@
                         @ViewBag.Sale_Status
                     </td>
                     <td>
-                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Competition", new { item.ID }, Context.Request.Scheme)', 'Update Competition')" class="btn btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>
+                        <a onclick="showInPopup('@Url.Action("AddOrEdit", "Post", new { item.ID }, Context.Request.Scheme)', 'Update Posts')" class="btn btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>
                         <form asp-action="Delete" asp-route-id="@item.ID" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                             <input type="submit" value="Delete" class="btn btn-danger" />
                         </form>

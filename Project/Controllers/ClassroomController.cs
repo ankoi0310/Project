@@ -19,7 +19,7 @@ namespace Project.Controllers
         }
 
         // GET: Classroom
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> List()
         {
             return View(await _context.Classrooms.ToListAsync());
         }

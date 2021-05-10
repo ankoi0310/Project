@@ -24,11 +24,6 @@ namespace Project.Controllers
             return View();
         }
 
-        public IActionResult Competition()
-        {
-            return View();
-        }
-
         public IActionResult Privacy()
         {
             return View();
