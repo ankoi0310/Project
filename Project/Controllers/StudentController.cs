@@ -32,11 +32,11 @@ namespace Project.Controllers
         // GET: Student/AddOrEdit
         // GET: Student/AddOrEdit/5
         [NoDirectAccess]
-        public async Task<IActionResult> AddOrEdit(int id = 0)
+        public async Task<IActionResult> AddOrEdit(string id = "0")
         {
-            if (id == 0)
+            if (id.Equals("0"))
             {
-                return base.View(new Models.Student());
+                return base.View(new Student() { ID = id });
             }
             else
             {
@@ -54,12 +54,13 @@ namespace Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, [Bind("ID,Name,Date_Of_Birth,Gender,Password,ID_Class_Room,ID_Position")] Student student)
+        public async Task<IActionResult> AddOrEdit(string id, [Bind("ID,Name,Date_Of_Birth,Gender,Password,ID_Class_Room,ID_Position")] Student student)
         {
             if (ModelState.IsValid)
             {
-                if (id == 0)
+                if (id.Equals("0"))
                 {
+                    student.ID = Tools.GetNextStudentID();
                     student.ID_Position = 1;
                     student.Password = student.Date_Of_Birth.ToString("ddMMyyyy");
                     _context.Add(student);
@@ -92,7 +93,7 @@ namespace Project.Controllers
         // POST: Student/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var Student = await _context.Students.FindAsync(id);
             _context.Students.Remove(Student);
@@ -100,7 +101,7 @@ namespace Project.Controllers
             return Json(new { html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Students.ToList()) });
         }
 
-        private bool StudentExists(int id)
+        private bool StudentExists(string id)
         {
             return _context.Students.Any(e => e.ID == id);
         }

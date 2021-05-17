@@ -83,7 +83,7 @@
                                 <ul>
                                     @foreach (var item in Model.getAllPost(Model.ID))
                                     {
-                        <li><a href="#">@item.getNameStudent(item.ID_Student)</a></li>}
+                        <li><a href="#">@Tools.getStudentName(item.ID_Student)</a></li>}
                     </ul>
                 </div>
             </div>

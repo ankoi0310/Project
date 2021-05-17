@@ -1,13 +1,16 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
+// for details on configuring this project to bundle and minify static web assets.s
 // Write your JavaScript code.
+
 
 removeSorting = () => {
     $('th:last-child').removeAttr("class");
 }
 
 showInPopup = (url, title) => {
+    if (title == "Update Staff" || title == "Update Student") {
+        $("#password").show();
+    }
     $.ajax({
         type: "GET",
         url: url,
@@ -16,14 +19,12 @@ showInPopup = (url, title) => {
             $("#form-modal .modal-body").html(res);
             $("#form-modal .modal-title").html(title);
             $("#form-modal").modal("show");
-            title == "Update Staff" || title == "Update Student" ? $("#password").show() : $("#password").hide();
         }
     })
 }
 
 jQueryAjaxPost = (form) => {
     $('#editor').html() == "<p><br data-cke-filler=\"true\"></p>" ? $('#Content').val(null) : $('#Content').val($('#editor').html());
-    console.log($("#content").val());
     removeSorting();
     try {
         $.ajax({
@@ -36,10 +37,10 @@ jQueryAjaxPost = (form) => {
                 if (res.isValid) {
                     $("#view-all").html(res.html);
                     setInterval('location.reload()', 100);
+                    $("#form-modal").modal('hide');
                     $("#form-modal .modal-body").html('');
                     $("#form-modal .modal-title").html('');
-                    $("#form-modal").modal('hide');
-                    $.notify("Submitted successfully", { globalPosition: "top center", className: "success" });
+                    alert("Submitted Succesfully");
                 } else {
                     $("#form-modal .modal-body").html(res.html);
                 }

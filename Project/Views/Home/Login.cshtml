@@ -1,0 +1,39 @@
+﻿@model Login
+
+@{
+    Layout = null;
+}
+
+<div class="modal-body customer-box">
+    <div class="tab-content">
+        <div class="tab-pane active" id="Login">
+            @*<form asp-action="Login" onsubmit="return login(this)" autocomplete="off">*@
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+            {
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.ID, new { @class = "form-control", @autofocus = "autofocus" })
+                    @*<label asp-for="ID" class="control-label"></label>
+                        <input asp-for="ID" class="form-control" />
+                        <span asp-validation-for="ID" class="text-danger"></span>*@
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(model => model.Password, new { @class = "form-control" })
+                    @*<label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" />
+                        <span asp-validation-for="Password" class="text-danger"></span>*@
+                </div>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <input type="submit" value="Login" class="btn btn-outline-primary btn-radius btn-brd grd1" />
+                        <a class="for-pwd text-danger" href="javascript:;">Forgot your password?</a>
+                    </div>
+                </div>
+            }
+            @*</form>*@
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

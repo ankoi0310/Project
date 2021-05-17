@@ -74,19 +74,18 @@ namespace Project.Controllers
             {
                 if (id == 0)
                 {
-                    
-                        string wwwRootPath = _webHostEnvironment.WebRootPath;
-                        string fileName = Path.GetFileNameWithoutExtension(competition.ImageFile.FileName);
-                        string extension = Path.GetExtension(competition.ImageFile.FileName);
-                        competition.Image = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
-                        string path = Path.Combine(wwwRootPath + "/images", fileName);
-                        using (var fs = new FileStream(path, FileMode.Create))
-                        {
-                            await competition.ImageFile.CopyToAsync(fs);
-                        }
+                    string wwwRootPath = _webHostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(competition.ImageFile.FileName);
+                    string extension = Path.GetExtension(competition.ImageFile.FileName);
+                    competition.Image = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension;
+                    string path = Path.Combine(wwwRootPath + "/images", fileName);
+                    using (var fs = new FileStream(path, FileMode.Create))
+                    {
+                        await competition.ImageFile.CopyToAsync(fs);
+                    }
 
-                        _context.Add(competition);
-                        await _context.SaveChangesAsync();
+                    _context.Add(competition);
+                    await _context.SaveChangesAsync();
                 }
                 else
                 {

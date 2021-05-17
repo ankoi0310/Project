@@ -18,8 +18,7 @@ namespace Project.Models
 
         [DisplayName("Author")]
         [Required(ErrorMessage = "This field is required.")]
-        public int ID_Student { get; set; }
-        public string getNameStudent(int id) => new Context().Students.Where(q => q.ID == id).FirstOrDefault().Name;
+        public string ID_Student { get; set; }
 
         [DisplayName("Date upload")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]

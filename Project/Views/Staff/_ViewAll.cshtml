@@ -74,7 +74,7 @@
                         @Html.DisplayFor(modelItem => item.Password)
                     </td>
                     <td>
-                        @item.GetPositionName(item.ID_Position)
+                        @Tools.GetPositionName(item.ID_Position)
                     </td>
                     <td>
                         <a onclick="showInPopup('@Url.Action("AddOrEdit", "Staff", new { item.ID }, Context.Request.Scheme)', 'Update Staff')" class="btn btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>

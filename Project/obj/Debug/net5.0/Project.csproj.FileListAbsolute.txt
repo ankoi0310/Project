@@ -177,3 +177,5 @@ F:\APTECH\WAD\Project\Project\obj\Debug\net5.0\Razor\Views\Staff\List.cshtml.g.c
 F:\APTECH\WAD\Project\Project\obj\Debug\net5.0\Razor\Views\Student\List.cshtml.g.cs
 F:\APTECH\WAD\Project\Project\obj\Debug\net5.0\Razor\Views\Competition\Detail.cshtml.g.cs
 F:\APTECH\WAD\Project\Project\obj\Debug\net5.0\Razor\Views\Post\Index.cshtml.g.cs
+F:\APTECH\WAD\Project\Project\obj\Debug\net5.0\Razor\Views\Home\Login.cshtml.g.cs
+F:\APTECH\WAD\Project\Project\obj\Debug\net5.0\Razor\Views\Home\_ViewAll.cshtml.g.cs

@@ -27,11 +27,11 @@ namespace Project.Controllers
         // GET: Staff/AddOrEdit
         // GET: Staff/AddOrEdit/5
         [NoDirectAccess]
-        public async Task<IActionResult> AddOrEdit(int id = 0)
+        public async Task<IActionResult> AddOrEdit(string id = "0")
         {
-            if (id == 0)
+            if (id.Equals("0"))
             {
-                return base.View(new Models.Staff());
+                return base.View(new Staff() { ID = id });
             }
             else
             {
@@ -49,12 +49,13 @@ namespace Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, [Bind("ID,Name,Date_Of_Birth,Gender,Start_Date,Password,ID_Position")] Staff staff)
+        public async Task<IActionResult> AddOrEdit(string id, [Bind("ID,Name,Date_Of_Birth,Gender,Start_Date,Password,ID_Position")] Staff staff)
         {
             if (ModelState.IsValid)
             {
-                if (id == 0)
+                if (id.Equals("0"))
                 {
+                    staff.ID = Tools.GetNextStaffID();
                     staff.ID_Position = 2;
                     staff.Start_Date = DateTime.Now;
                     staff.Password = staff.Date_Of_Birth.ToString("ddMMyyyy");
@@ -88,7 +89,7 @@ namespace Project.Controllers
         // POST: Staff/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
             var staff = await _context.Staffs.FindAsync(id);
             _context.Staffs.Remove(staff);
@@ -96,7 +97,7 @@ namespace Project.Controllers
             return Json(new { html = Helper.RenderRazorViewString(this, "_ViewAll", _context.Staffs.ToList()) });
         }
 
-        private bool StaffExists(int id)
+        private bool StaffExists(string id)
         {
             return _context.Staffs.Any(e => e.ID == id);
         }

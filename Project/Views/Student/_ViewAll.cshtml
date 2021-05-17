@@ -67,7 +67,7 @@
                         @Html.DisplayFor(modelItem => item.Password)
                     </td>
                     <td class="text-center">
-                        @item.GetClassroomName(item.ID_Class_Room)
+                        @Tools.GetClassroomName(item.ID_Class_Room)
                     </td>
                     <td>
                         <a onclick="showInPopup('@Url.Action("AddOrEdit", "Student", new { item.ID }, Context.Request.Scheme)', 'Update Student')" class="btn btn-info"><i class="fas fa-pencil-alt"></i> Edit</a>
